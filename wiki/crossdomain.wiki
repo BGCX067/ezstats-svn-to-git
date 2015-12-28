@@ -1,0 +1,49 @@
+#summary ezStats is installed in a different domain as your CMS
+#labels Phase-Deploy
+
+
+=== What is the problem? ===
+
+If you have ezStats installed in a different domain, or subdomain, than your CMS, the "detail-popup" does not work. Due to a security policy on the server where ezStats is installed , it blocks the request from the foreign server.
+
+_Wenn du ezStats in einer anderen Domain, oder Subdomain, installiert hast als dein CMS, funktioniert das Detail-Popup nicht. Aufrgrund einer Sicherheitsrichtlinie blockt der Server wo ezStats installiert ist, die Anfrage vom fremden Server ab._
+----
+
+=== Solution #1 ===
+Make sure that ezStats is installed under the same subdomain as your CMS. If the URL of your page is `http://www.yoursite.com/`, and the URL of ezStats is `http://stats.yoursite.com/`, the detail popup do not work.<br>
+Jump in the admin panel of ezStats, open the menu "Plugins" and then change the URL, so ezStats has the same subdomain as your CMS: f.e. `http://www.yoursite.com/folder/ezStats2/`.<br>
+Attention: `http://yoursite.com` and `http://www.yoursite.com` are also different subdomains!
+
+_Stelle sicher daß ezStats unter der gleichen Subdomain wie dein CMS installiert ist. Wenn die URL deiner Seite `http://www.yoursite.com/` lautet, und die von ezStats `http://stats.yoursite.com/`, wird das Detail-PopUp nicht funktionieren._<br>
+_Öffne im Adminpanel von ezStats das Menü "Plugins" und ändere dort die URL, damit ezStats die gleiche Subdomain wie dein CMS hat, zum Beispiel: `http://www.yoursite.com/folder/ezStats2/`._<br>
+_Achtung: `http://yoursite.com` und `http://www.yoursite.com` sind auch unterschiedliche Subdomains!_
+----
+
+=== Solution #2 ===
+Download <a href="http://gfx.ezstats.org/htaccess.zip">these zip file</a> and extract it. You must then upload the file ".htaccess" that you just unpacked to your ezStats-folder.
+
+_Lade dir <a href="http://gfx.ezstats.org/htaccess.zip">diese Zip-Datei</a> runter und entpacke sie. Die Datei ".htaccess" die du entpackt hast, lädst du dann in das ezStats-Verzeichnis hoch._
+----
+
+=== Solution #3 ===
+This discontent can be solved with a simple XML file called "crossdomain.xml", which shall be taken in the root directory of the server where ezStats is installed.
+The code for the file you'll find below.
+
+The XML file contains a white list. Who shows up here, may access. The commented-out part with the item `allow-access-from` opens this door to all or specific domains. The asterisk (`*`) in domain and port is a wild card, thus allowing everyone access. It is better if you fill in `domain=""` the domain of your CMS.
+
+_Diesem Missmut lässt sich in der Regel mit einer simplen XML Datei namens "crossdomain.xml" abhelfen, die im root-Verzeichnis des Servers abzulegen ist, wo ezStats installiert ist.
+Den Code für die Datei findest weiter unten._
+
+_Die XML Datei enthält eine Whitelist. Wer hier auftaucht, darf zugreifen. Der auskommentierte Teil mit dem Element `allow-access-from` öffnet dabei Tür und Tor für spezielle oder alle Domains. Der Stern (`*`) in domain und port ist eine Wildcard und erlaubt somit jeden Zugriff. Besser ist es, wenn du unter `domain=""` die Domain deines CMS eingibst._
+
+{{{
+<?xml version="1.0"?>
+<!DOCTYPE cross-domain-policy SYSTEM 
+    "http://www.macromedia.com/xml/dtds/cross-domain-policy.dtd">
+<cross-domain-policy>
+<!--
+   <allow-access-from domain="*" to-ports="*" />
+-->
+</cross-domain-policy>
+}}}
+----
